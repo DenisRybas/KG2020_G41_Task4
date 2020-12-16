@@ -7,7 +7,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-import rybas.entity.ModelManager;
+import rybas.model.ModelManager;
 import rybas.input.UserInput;
 
 public class Display extends Canvas implements Runnable {
@@ -17,7 +17,7 @@ public class Display extends Canvas implements Runnable {
 	private JFrame frame;
 	private static String title = "3D lighting";
 	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int HEIGHT = 800;
 	private static boolean running = false;
 
 	private ModelManager modelManager;

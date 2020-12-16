@@ -1,8 +1,7 @@
-package rybas.entity;
+package rybas.model;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import rybas.point.MyVector;

@@ -1,4 +1,4 @@
-package rybas.entity;
+package rybas.model;
 
 import rybas.point.MyVector;
 

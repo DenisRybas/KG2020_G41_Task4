@@ -1,10 +1,10 @@
-package rybas.entity;
+package rybas.model;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import rybas.entity.builder.BasicModelBuilder;
+import rybas.model.builder.BasicModelBuilder;
 import rybas.input.ClickType;
 import rybas.input.Keyboard;
 import rybas.input.Mouse;
@@ -33,8 +33,8 @@ public class ModelManager {
 	public void init(UserInput userInput) {
 		this.mouse = userInput.mouse;
 		this.keyboard = userInput.keyboard;
-		this.entities.add(BasicModelBuilder.createSphere(Color.CYAN, 100,
-				0, 0, 0));
+		this.entities.add(BasicModelBuilder.createSphere(Color.CYAN, 100));
+//		this.entities.add(BasicModelBuilder.createCylinder(40, 50, Color.CYAN));
 		this.setLighting();
 	}
 	

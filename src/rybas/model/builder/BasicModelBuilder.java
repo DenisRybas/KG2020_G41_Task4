@@ -1,4 +1,4 @@
-package rybas.entity.builder;
+package rybas.model.builder;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,10 +6,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import rybas.entity.Model;
-import rybas.entity.IModel;
+import rybas.model.Model;
+import rybas.model.IModel;
 import rybas.point.MyPoint;
-import rybas.point.MyVector;
 import rybas.shapes.MyPolygon;
 import rybas.shapes.Polyhedron;
 
@@ -39,41 +38,7 @@ public class BasicModelBuilder {
         return new Model(tetras);
     }
 
-    public static IModel createDiamond(Color color, double size, double centerX, double centerY, double centerZ) {
-        List<Polyhedron> tetras = new ArrayList<Polyhedron>();
-
-        int edges = 20;
-        double inFactor = 0.8;
-        MyPoint bottom = new MyPoint(centerX, centerY, centerZ - size / 2);
-        MyPoint[] outerPoints = new MyPoint[edges];
-        MyPoint[] innerPoints = new MyPoint[edges];
-        for (int i = 0; i < edges; i++) {
-            double theta = 2 * Math.PI / edges * i;
-            double xPos = -Math.sin(theta) * size / 2;
-            double yPos = Math.cos(theta) * size / 2;
-            double zPos = size / 2;
-            outerPoints[i] = new MyPoint(centerX + xPos, centerY + yPos, centerZ + zPos * inFactor);
-            innerPoints[i] = new MyPoint(centerX + xPos * inFactor, centerY + yPos * inFactor, centerZ + zPos);
-        }
-
-        List<MyPolygon> polygons = new ArrayList<>();
-        for (int i = 0; i < edges; i++) {
-            polygons.add(new MyPolygon(outerPoints[i], bottom, outerPoints[(i + 1) % edges]));
-        }
-        for (int i = 0; i < edges; i++) {
-            polygons.add(new MyPolygon(outerPoints[i],
-                    outerPoints[(i + 1) % edges], innerPoints[(i + 1) % edges],
-                    innerPoints[i]));
-        }
-        polygons.add(new MyPolygon(innerPoints));
-
-        Polyhedron tetra = new Polyhedron(color, false, polygons);
-        tetras.add(tetra);
-
-        return new Model(tetras);
-    }
-
-    public static IModel createSphere(Color color, double radius, double centerX, double centerY, double centerZ) {
+    public static IModel createSphere(Color color, double radius) {
         List<MyPolygon> polygons = new LinkedList<>();
         List<Polyhedron> tetras = new ArrayList<>();
 
@@ -114,4 +79,33 @@ public class BasicModelBuilder {
         return new Model(tetras);
     }
 
+    public static IModel createCylinder(int slices, int radius, Color color) {
+        List<MyPolygon> polygons = new LinkedList<>();
+        List<Polyhedron> tetras = new ArrayList<>();
+
+        for (int i = 0; i < slices; i++) {
+            double theta = i * 2.0 * Math.PI;
+            double nextTheta = (i + 1) * 2.0 * Math.PI;
+            /*vertex at middle of end */
+            MyPoint point1 = new MyPoint(0.0, radius, 0.0);
+            /*vertices at edges of circle*/
+            MyPoint point2 = new MyPoint(radius * Math.cos(theta), radius,
+                    radius * Math.sin(theta));
+            MyPoint point3 = new MyPoint(radius * Math.cos(nextTheta), radius,
+                    radius * Math.sin(nextTheta));
+            /* the same vertices at the bottom of the cylinder*/
+            MyPoint point4 = new MyPoint(radius * Math.cos(nextTheta), -radius,
+                    radius * Math.sin(nextTheta));
+            MyPoint point5 = new MyPoint(radius * Math.cos(theta), -radius,
+                    radius * Math.sin(theta));
+            MyPoint point6 = new MyPoint(0.0, -radius, 0.0);
+
+            polygons.add(new MyPolygon(point1, point2, point3, point4, point5, point6));
+        }
+
+        Polyhedron tetra = new Polyhedron(color, false, polygons);
+        tetras.add(tetra);
+
+        return new Model(tetras);
+    }
 }
