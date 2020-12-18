@@ -121,11 +121,11 @@ public class MyPolygon {
 //
 //		double lightRatio = Math.min(1, Math.max(0, AmbientLight + dot));
 //		this.updateLightingColor(lightRatio);
+//        MyVector lightVector = MyVector.sum(lightVector1, lightVector2); //TODO: Подумать, как лучше сделать
 
         MyVector v1 = new MyVector(this.points[0], this.points[1]);
         MyVector v2 = new MyVector(this.points[1], this.points[2]);
         MyVector normal = MyVector.normalize(MyVector.cross(v2, v1));
-        MyVector lightVector = MyVector.sum(lightVector1, lightVector2); //TODO: Подумать, как лучше сделать
         double dot1 = MyVector.dot(normal, lightVector1);
         double sign1 = dot1 < 0 ? -1 : 1;
         dot1 = sign1 * dot1 * dot1;
@@ -136,7 +136,7 @@ public class MyPolygon {
         dot2 = sign2 * dot2 * dot2;
         dot2 = (dot2 + 1) / 2 * (1 - AmbientLight);
 
-        double dot = Math.max(dot1, dot2);
+        double dot = dot1 + dot2;
 
         double lightRatio = Math.min(1, Math.max(0, AmbientLight + dot));
         this.updateLightingColor(lightRatio);
